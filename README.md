@@ -1,1 +1,1 @@
-computer-structures-II
+Computer Structures II - UCR
