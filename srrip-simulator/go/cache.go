@@ -27,8 +27,8 @@ func initializeCache(cache *[][]cacheLine) {
 
 // requestCache handles a memory access request by the CPU
 func requestCache(cache *[][]cacheLine, request memoryRequest, stats *stats) {
-	index := (request.address >> uint32(math.Log2(float64(lineSize)))) % uint32(cacheBlocks) // uses module to define the set location
-	tag := (request.address >> uint32(math.Log2(float64(lineSize)))) / uint32(cacheBlocks)
+	tag := (request.address / uint32(lineSize)) / uint32(cacheBlocks)
+	index := (request.address / uint32(lineSize)) % uint32(cacheBlocks)
 	hit := -1 //index of the set where the hit was triggered
 	for i := 0; i < associativity && hit == -1; i++ {
 		if tag == (*cache)[index][0].tag {

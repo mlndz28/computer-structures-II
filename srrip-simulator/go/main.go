@@ -11,11 +11,12 @@ import (
 )
 
 var (
-	lineSize      int //how many bytes per cache line
-	cacheSize     int //in bytes
-	associativity int //size of the set
-	cacheBlocks   int //number of sets
-	mRrpvMax      int //2^m - 1
+	lineSize      int   //how many bytes per cache line
+	cacheSize     int   //in bytes
+	associativity int   //size of the set
+	helpFlag      *bool //show usage
+	cacheBlocks   int   //number of sets
+	mRrpvMax      int   //2^m - 1
 )
 
 // Simulation statistics
@@ -31,6 +32,7 @@ func init() {
 	associativityFlag := flag.Int("a", 2, "associativity")
 	cacheSizeFlag := flag.Int("t", 16, "cache size (KB)")
 	lineSizeFlag := flag.Int("l", 32, "line size (bytes)")
+	helpFlag = flag.Bool("h", false, "help")
 	flag.Parse()
 	associativity = *associativityFlag
 	cacheSize = (*cacheSizeFlag) * 1024
@@ -42,8 +44,13 @@ func init() {
 func main() {
 	info, err := os.Stdin.Stat()
 	handleError(err)
-	if (info.Mode() & os.ModeCharDevice) != 0 { //if data has not been piped
-		fmt.Println("Usage: gunzip -c <tracename>.trace.gz | cache -a <associativity> -t <cache size in KB> -l <line size in bytes>")
+	if (info.Mode()&os.ModeCharDevice) != 0 || *helpFlag { //if data has not been piped or usage chart has been requested
+		usage := "\nUsage: gunzip -c <compressedTraceFile.gz> | cache [options]"
+		usage += "\n\n\t-a, --a\t\tAssociativity"
+		usage += "\n\t-t, --t\t\tCache size in KB"
+		usage += "\n\t-l, --l\t\tLine size in bytes"
+		usage += "\n\t-h, --h\t\tShow usage\n"
+		fmt.Println(usage)
 		return
 	}
 
