@@ -1,7 +1,5 @@
 package main
 
-import "math"
-
 // Request to memory from the CPU
 type memoryRequest struct {
 	address uint32
@@ -31,7 +29,7 @@ func requestCache(cache *[][]cacheLine, request memoryRequest, stats *stats) {
 	index := (request.address / uint32(lineSize)) % uint32(cacheBlocks)
 	hit := -1 //index of the set where the hit was triggered
 	for i := 0; i < associativity && hit == -1; i++ {
-		if tag == (*cache)[index][0].tag {
+		if tag == (*cache)[index][i].tag {
 			hit = i
 		}
 	}
