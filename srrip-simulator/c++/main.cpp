@@ -20,8 +20,8 @@ void printStats(cache::stats stats){
 	cout << "\tCache Associativity: " << specs.associativity << endl;
 	cout << "\tCache Block Size (bytes): " << specs.lineSize << endl;
 	cout << "Simulation result:" << endl;
-	cout << "\tOverall miss rate: " << (stats.loadMisses + stats.storeMisses)/stats.totalEntries << endl;
-	cout << "\tRead miss rate: " << (stats.loadMisses)/(stats.loadHits+stats.loadMisses) << endl;
+	cout << "\tOverall miss rate: " << ((float)(stats.loadMisses + stats.storeMisses))/stats.totalEntries << endl;
+	cout << "\tRead miss rate: " << ((float)(stats.loadMisses))/(stats.loadHits+stats.loadMisses) << endl;
 	cout << "\tDirty evictions: " << stats.evictions << endl;
 	cout << "\tLoad misses: " << stats.loadMisses << endl;
 	cout << "\tStore misses: " << stats.storeMisses << endl;
