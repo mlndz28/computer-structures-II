@@ -60,7 +60,7 @@ int main ( int argc, char *argv[] ){
 			matrix::print(&C);								// in parallel
 			cout << endl;
 
-		}else{
+		}else if (id < matrixSize + 1 ){	// extra processes will not keep waiting
 			int contract = 1;
 			while(contract){
 				MPI_Recv(&contract, 1, MPI_INT, 0, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
