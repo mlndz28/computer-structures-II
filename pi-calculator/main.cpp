@@ -45,8 +45,9 @@ int main (int argc, char *argv[]){
 // Each iteration adds two values of the overall series to pi.
 void *machinIteration(void *iptr) {
     int i = (long)iptr;
+	long double subSeries = 16*(i%2?-1:1)*pow(0.2, 2*i+1)/(2*i+1) - 4*(i%2?-1:1)*pow(1.0/239, 2*i+1)/(2*i+1);
 	pthread_mutex_lock( &(mutexes[i%threads]) );	// lock the thread so no one can access to pi while at it
-   	pi += 16*(i%2?-1:1)*pow(0.2, 2*i+1)/(2*i+1) - 4*(i%2?-1:1)*pow(1.0/239, 2*i+1)/(2*i+1);
+   	pi += subSeries;
    	pthread_mutex_unlock( &(mutexes[i%threads]) );
     pthread_exit(NULL);	// finish this thread's work
  }
